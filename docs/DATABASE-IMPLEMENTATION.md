@@ -53,3 +53,18 @@ Os totais dos orçamentos são recalculados quando os itens mudam. Orçamento ap
 6. Depois disso, avançar para agenda e operações técnicas.
 
 **Importante:** sincronizar arquivos Git com o projeto Lovable não é prova de que a migração foi executada no banco. Não marcar esta fase como concluída até verificar tabelas, políticas e operações reais no ambiente Cloud.
+
+
+## Validação automatizada da migração
+
+O CI executa a migração em um PostgreSQL 16 descartável, com um esquema mínimo de autenticação para simular as funções que o Lovable Cloud fornece. Os testes de fumaça verificam:
+
+- execução integral da migração;
+- criação de empresas pelo RPC autenticado;
+- isolamento de leitura e bloqueio de escrita entre duas empresas;
+- restrição de leitura da carteira de clientes para técnicos;
+- cálculo automático dos totais dos orçamentos;
+- gravação de auditoria;
+- ausência de acesso direto do papel anônimo às tabelas e ao RPC de criação de empresa.
+
+Essa validação automatizada reduz riscos de SQL e permissões, mas não substitui a aplicação no Lovable Cloud nem os testes reais no ambiente gerenciado. O banco remoto continua pendente até a execução e conferência dentro do Cloud.
