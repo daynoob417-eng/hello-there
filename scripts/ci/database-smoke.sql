@@ -186,7 +186,7 @@ values
   (:'company_a_id'::uuid, :'inventory_item_a_id'::uuid, 'entry', 10, 'Estoque inicial'),
   (:'company_a_id'::uuid, :'inventory_item_a_id'::uuid, 'exit', -3, 'Uso em atendimento');
 
-do $
+do $operational$
 declare
   stock numeric(12,3);
 begin
@@ -224,7 +224,7 @@ begin
     when check_violation then null;
   end;
 end;
-$;
+$operational$;
 
 reset role;
 reset request.jwt.claim.sub;
@@ -233,7 +233,7 @@ reset request.jwt.claim.sub;
 begin;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '30000000-0000-4000-8000-000000000003', true);
-do $
+do $operational$
 declare
   appointment_count integer;
   payment_count integer;
@@ -250,7 +250,7 @@ begin
     raise exception 'Technician unexpectedly read financial records';
   end if;
 end;
-$;
+$operational$;
 rollback;
 
 select 'database migration and RLS smoke tests passed' as result;
