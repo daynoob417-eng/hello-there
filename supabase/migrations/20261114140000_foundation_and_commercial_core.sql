@@ -597,7 +597,10 @@ grant select, insert, update, delete on
   public.profiles, public.companies, public.company_members, public.customers,
   public.leads, public.services, public.quotes, public.quote_items, public.audit_logs
   to authenticated;
-revoke all on all tables in schema public from anon;
+revoke all on
+  public.profiles, public.companies, public.company_members, public.customers,
+  public.leads, public.services, public.quotes, public.quote_items, public.audit_logs
+  from anon;
 grant usage, select on sequence public.audit_logs_id_seq to authenticated;
 
 revoke all on function public.set_updated_at() from public;
