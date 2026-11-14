@@ -8,40 +8,37 @@ Centralizar clientes, leads, catálogo de serviços, orçamentos, agenda, equipe
 
 ## Stack do produto
 
-- React 19 + TypeScript
-- Vite 8 + TanStack Start / TanStack Router
-- Tailwind CSS 4
-- shadcn/ui + Radix UI
-- TanStack React Query
-- Appwrite Cloud para autenticação, banco de dados, permissões, arquivos e funções de backend
-- Cloudflare Workers para execução/hospedagem da aplicação existente
+- React + TypeScript + Vite
+- TanStack Start / TanStack Router (base existente; compatibilidade com o fluxo de build e sincronização do Lovable deve ser validada)
+- Tailwind CSS + shadcn/ui
+- **Lovable Cloud** para backend gerenciado: banco de dados, autenticação, armazenamento e funções de servidor quando necessárias
 - Vitest para testes
 
-O Appwrite será o backend gerenciado único do produto. A base TanStack Start existente será preservada. O Lovable continuará sendo usado como editor e sincronizador de código com GitHub, não como provedor de backend.
+O backend será gerenciado pelo Lovable Cloud dentro do projeto conectado. **Nota transparente:** Lovable Cloud utiliza tecnologia Supabase nos bastidores, mas não exige que o usuário configure ou administre um projeto Supabase separado. Não criar um segundo backend nem configurar Neon ou Appwrite.
 
-Consulte [Decisões de arquitetura](docs/ARCHITECTURE-DECISIONS.md).
+A hospedagem do frontend permanece uma decisão separada e não será alterada sem validação de compatibilidade.
 
 ## Estado do desenvolvimento
 
 O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
 
-- [x] Substituir a página inicial em branco por uma primeira estrutura visual do produto.
+- [x] Criar a primeira estrutura visual do produto.
 - [x] Aplicar nome, idioma e metadados da Central de Orçamentos.
 - [x] Criar navegação inicial responsiva para os módulos previstos.
-- [x] Remover os artefatos legados de Supabase.
-- [x] Definir Appwrite Cloud como backend gerenciado.
-- [ ] Criar projeto Appwrite e configurar ambientes e chaves privadas.
-- [ ] Implementar autenticação, perfis, empresas, equipes e permissões.
+- [x] Remover os arquivos de migração legados da pasta Supabase.
+- [x] Definir Lovable Cloud como backend gerenciado escolhido.
+- [ ] Confirmar a ativação do Lovable Cloud no projeto conectado.
+- [ ] Configurar autenticação, perfis, empresas e permissões.
 - [ ] Criar tabelas e relacionamentos para os dados comerciais.
-- [ ] Implementar isolamento entre empresas e testes de autorização.
-- [ ] Implementar operações de agendamento transacionais e testes de concorrência.
+- [ ] Implementar e testar isolamento entre empresas.
+- [ ] Validar operações transacionais e concorrência do agendamento.
 - [ ] Conectar os módulos a dados persistidos e validar os fluxos.
 
 ## Importante
 
-A interface inicial não representa uma aplicação pronta. Indicadores e listas permanecem sem dados até a integração com o backend. Não há dados comerciais fictícios apresentados como reais. Recursos ainda não implementados são identificados como pendentes.
+A interface inicial não representa uma aplicação pronta. Indicadores e listas não devem apresentar dados fictícios como dados reais. Recursos ainda não implementados devem permanecer identificados como pendentes.
 
-Não utilizar Supabase nem Lovable Cloud neste projeto. Segredos e chaves administrativas do Appwrite devem permanecer exclusivamente no servidor e nunca receber prefixo VITE_.
+Nenhuma credencial ou chave administrativa pode ser versionada ou exposta ao navegador.
 
 ## Executar localmente
 
