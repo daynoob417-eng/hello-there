@@ -81,15 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Negócio em Ordem" },
       {
         name: "description",
-        content:
-          "Organize clientes, vendas, tarefas e dinheiro em um só lugar.",
+        content: "Organize clientes, vendas, tarefas e dinheiro em um só lugar.",
       },
       { name: "author", content: "Negócio em Ordem" },
       { property: "og:title", content: "Negócio em Ordem" },
       {
         property: "og:description",
-        content:
-          "Menos tarefas perdidas. Mais controle. Mais oportunidades de venda.",
+        content: "Menos tarefas perdidas. Mais controle. Mais oportunidades de venda.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
