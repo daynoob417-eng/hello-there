@@ -2,11 +2,8 @@ import { useState } from "react";
 import {
   Activity,
   AirVent,
-  ArrowDownRight,
-  ArrowUpRight,
   Bell,
   CalendarDays,
-  CheckCircle2,
   ChevronDown,
   ClipboardList,
   Clock3,
@@ -14,7 +11,6 @@ import {
   LayoutDashboard,
   Menu,
   Plus,
-  Search,
   Settings2,
   ShieldCheck,
   Users,
@@ -121,7 +117,7 @@ function DashboardPage() {
         </div>
 
         <div className="border-b border-white/10 px-5 py-5">
-          <button className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] p-3 text-left transition hover:bg-white/10">
+          <div className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] p-3 text-left">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-400/15 text-cyan-300">
               <Wrench className="h-4 w-4" />
             </div>
@@ -129,8 +125,8 @@ function DashboardPage() {
               <p className="truncate text-sm font-semibold">Sua empresa</p>
               <p className="text-xs text-slate-400">Configuração inicial pendente</p>
             </div>
-            <ChevronDown className="h-4 w-4 text-slate-400" />
-          </button>
+            <span className="text-[10px] font-medium text-slate-400">EM CONFIGURAÇÃO</span>
+          </div>
         </div>
 
         <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-6">
@@ -197,13 +193,13 @@ function DashboardPage() {
               <span className="h-2 w-2 rounded-full bg-amber-500" />
               <span className="text-xs font-semibold text-amber-800">Configuração inicial</span>
             </div>
-            <button
-              aria-label="Notificações"
-              className="relative rounded-xl border border-slate-200 p-2.5 text-slate-500 transition hover:bg-slate-50"
+            <div
+              aria-label="Notificações ainda não disponíveis"
+              className="relative rounded-xl border border-slate-200 p-2.5 text-slate-400"
+              title="Notificações serão ativadas em uma próxima fase"
             >
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-cyan-500" />
-            </button>
+            </div>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#10243A] text-xs font-bold text-white">
               CO
             </div>
