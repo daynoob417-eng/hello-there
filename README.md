@@ -13,14 +13,11 @@ Centralizar clientes, leads, catálogo de serviços, orçamentos, agenda, equipe
 - Tailwind CSS 4
 - shadcn/ui + Radix UI
 - TanStack React Query
-- PostgreSQL gerenciado no Neon
-- Drizzle ORM + Drizzle Kit
-- Better Auth para autenticação e sessões
-- Cloudflare Workers + Hyperdrive para execução e conexão com PostgreSQL
-- Cloudflare R2 para arquivos e fotos (fase de operação)
+- Appwrite Cloud para autenticação, banco de dados, permissões, arquivos e funções de backend
+- Cloudflare Workers para execução/hospedagem da aplicação existente
 - Vitest para testes
 
-A arquitetura preserva a base TanStack Start existente. O Lovable será utilizado como editor e sincronizador de código com GitHub; o backend e a hospedagem da aplicação serão executados fora do backend gerenciado do Lovable.
+O Appwrite será o backend gerenciado único do produto. A base TanStack Start existente será preservada. O Lovable continuará sendo usado como editor e sincronizador de código com GitHub, não como provedor de backend.
 
 Consulte [Decisões de arquitetura](docs/ARCHITECTURE-DECISIONS.md).
 
@@ -31,19 +28,20 @@ O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
 - [x] Substituir a página inicial em branco por uma primeira estrutura visual do produto.
 - [x] Aplicar nome, idioma e metadados da Central de Orçamentos.
 - [x] Criar navegação inicial responsiva para os módulos previstos.
-- [x] Definir arquitetura sem Supabase: Neon PostgreSQL, Drizzle, Better Auth e Cloudflare Workers.
-- [ ] Configurar projeto PostgreSQL e conexão segura via Cloudflare Hyperdrive.
-- [ ] Implementar schema e migrations com Drizzle Kit.
-- [ ] Implementar Better Auth, sessão e recuperação de senha.
-- [ ] Implementar empresas, membros, perfis, permissões e políticas PostgreSQL de isolamento multiempresa.
-- [ ] Implementar testes de isolamento entre empresas.
-- [ ] Conectar os módulos a dados persistidos e testar os fluxos.
+- [x] Remover os artefatos legados de Supabase.
+- [x] Definir Appwrite Cloud como backend gerenciado.
+- [ ] Criar projeto Appwrite e configurar ambientes e chaves privadas.
+- [ ] Implementar autenticação, perfis, empresas, equipes e permissões.
+- [ ] Criar tabelas e relacionamentos para os dados comerciais.
+- [ ] Implementar isolamento entre empresas e testes de autorização.
+- [ ] Implementar operações de agendamento transacionais e testes de concorrência.
+- [ ] Conectar os módulos a dados persistidos e validar os fluxos.
 
 ## Importante
 
 A interface inicial não representa uma aplicação pronta. Indicadores e listas permanecem sem dados até a integração com o backend. Não há dados comerciais fictícios apresentados como reais. Recursos ainda não implementados são identificados como pendentes.
 
-O projeto não utiliza Supabase nem o backend gerenciado do Lovable. Não habilitar Lovable Cloud para este projeto. A conexão com o banco será feita exclusivamente pelo servidor, usando credenciais privadas e Cloudflare Hyperdrive.
+Não utilizar Supabase nem Lovable Cloud neste projeto. Segredos e chaves administrativas do Appwrite devem permanecer exclusivamente no servidor e nunca receber prefixo VITE_.
 
 ## Executar localmente
 
@@ -54,4 +52,4 @@ npm run dev
 
 ## Qualidade
 
-Antes de considerar qualquer módulo concluído, validar persistência, autorização em cada endpoint/server function, políticas PostgreSQL, estados de carregamento e erro, responsividade e testes funcionais.
+Antes de considerar qualquer módulo concluído, validar persistência, autorização em cada endpoint/server function, permissões por empresa, estados de carregamento e erro, responsividade e testes funcionais.
