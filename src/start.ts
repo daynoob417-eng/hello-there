@@ -25,9 +25,9 @@ const csrfMiddleware = createCsrfMiddleware({
 });
 
 // requestMiddleware runs on every request. Keep security middleware here and
-// add authentication middleware only after the Better Auth server integration
-// is implemented and validated. Never trust client-provided sendContext as
-// proof of identity, company membership, or permissions.
+// add Lovable Cloud session validation only after its generated integration is
+// available and verified. Never trust client-provided sendContext as proof of
+// identity, company membership, or permissions.
 export const startInstance = createStart(() => ({
   requestMiddleware: [errorMiddleware, csrfMiddleware],
 }));
