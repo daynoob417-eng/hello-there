@@ -1,35 +1,34 @@
-# Negócio em Ordem
+# Central de Orçamentos
 
-Página demonstrativa de vendas para uma ferramenta simples de organização de pequenos negócios e profissionais autônomos.
+SaaS para técnicos autônomos, instaladores e pequenas empresas brasileiras de instalação e manutenção de ar-condicionado.
 
-## Proposta
+## Objetivo
 
-**Menos tarefas perdidas. Mais controle. Mais oportunidades de venda.**
+Centralizar o ciclo comercial e operacional do negócio: clientes, leads, catálogo, orçamentos, agendamentos, equipe técnica, execução dos serviços, acompanhamento do cliente, pagamentos, despesas, estoque e relatórios.
 
-A página apresenta, em um único lugar, a proposta de organizar clientes, vendas, tarefas e movimentações financeiras básicas.
+O produto terá três ambientes integrados:
+- **Empresário:** gestão completa da empresa e visão dos indicadores reais.
+- **Técnico:** agenda e serviços atribuídos, com registro da execução.
+- **Cliente:** solicitação e acompanhamento por link individual seguro, sem conta obrigatória.
 
-## O que esta versão contém
+## Estado atual
 
-- Página de vendas responsiva para celular e computador.
-- Apresentação do produto e dos benefícios.
-- Demonstração visual com números fictícios claramente identificados.
-- Seções de funcionalidades, etapas de uso, plano ilustrativo e perguntas frequentes.
-- Formulário demonstrativo sem envio ou armazenamento de dados.
+A página de vendas criada anteriormente não é o produto solicitado e não deve ser tratada como versão funcional. A implementação atual ainda não possui os módulos operacionais, autenticação integrada, persistência de dados ou regras de negócio da Central de Orçamentos.
 
-## Transparência da demonstração
+A reconstrução foi retomada em uma branch separada. A especificação funcional completa está em [docs/central-de-orcamentos-especificacao.md](docs/central-de-orcamentos-especificacao.md).
 
-Esta versão é somente uma demonstração de interface. Não possui autenticação, banco de dados, processamento de pagamentos, envio de formulários ou gestão real de clientes. Os números e o preço exibidos são fictícios e servem apenas para exemplificar a apresentação comercial.
+## Arquitetura aprovada
 
-## Stack preservada
+- React + TypeScript + Vite + TanStack.
+- **Lovable Cloud** como backend único gerenciado: banco de dados, autenticação, sessões, armazenamento e lógica server-side.
+- Não criar nem administrar um projeto Supabase separado.
+- Não adicionar Neon, Drizzle, Better Auth, Appwrite ou outro provedor de backend.
+- Isolamento obrigatório dos dados por empresa, autorização no backend e políticas de segurança restritivas.
+- Desenvolvimento via GitHub em branches e Pull Requests, com validação antes da integração e sincronização com Lovable.
 
-- React + TypeScript
-- Vite
-- TanStack Start / TanStack Router
-- Tailwind CSS
-- Lucide React
-- Vitest
+## Critério de qualidade
 
-A estrutura técnica existente foi mantida para preservar a compatibilidade do projeto com o fluxo de desenvolvimento e sincronização do Lovable.
+Não considerar pronto um módulo que seja apenas visual. Toda funcionalidade deve operar com dados reais, persistir no backend, respeitar permissões e isolamento por empresa, tratar erros e possuir testes relevantes. Não usar dados fictícios como se fossem reais nem botões sem ação.
 
 ## Executar localmente
 
@@ -38,6 +37,10 @@ npm install
 npm run dev
 ```
 
-## Qualidade
+## Validação
 
-Antes de integrar novos serviços, validar lint, testes, build, responsividade e funcionamento dos links e interações da página.
+```bash
+npm run lint
+npm test
+npm run build
+```
