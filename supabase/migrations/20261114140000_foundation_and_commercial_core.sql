@@ -644,24 +644,3 @@ revoke all on function public.create_company_for_current_user(text, text, text) 
 revoke all on function public.add_company_member(uuid, uuid, public.app_role) from public, anon, authenticated;
 grant execute on function public.create_company_for_current_user(text, text, text) to authenticated;
 grant execute on function public.add_company_member(uuid, uuid, public.app_role) to authenticated;
-revoke all on
-  public.profiles, public.companies, public.company_members, public.customers,
-  public.leads, public.services, public.quotes, public.quote_items, public.audit_logs
-  from anon;
-grant usage, select on sequence public.audit_logs_id_seq to authenticated;
-
-revoke all on function public.set_updated_at() from public;
-revoke all on function public.handle_new_auth_user() from public;
-revoke all on function public.set_quote_total_amount() from public;
-revoke all on function public.recalculate_quote_totals() from public;
-revoke all on function public.write_audit_log() from public;
-revoke all on function public.create_company_for_current_user(text, text, text) from public;
-grant execute on function public.create_company_for_current_user(text, text, text) to authenticated;
-revoke all on function public.add_company_member(uuid, uuid, public.app_role) from public;
-grant execute on function public.add_company_member(uuid, uuid, public.app_role) to authenticated;
-revoke all on function public.is_company_member(uuid) from public;
-grant execute on function public.is_company_member(uuid) to authenticated;
-revoke all on function public.has_company_role(uuid, public.app_role[]) from public;
-grant execute on function public.has_company_role(uuid, public.app_role[]) to authenticated;
-revoke all on function public.are_company_colleagues(uuid) from public;
-grant execute on function public.are_company_colleagues(uuid) to authenticated;
