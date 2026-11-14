@@ -207,14 +207,14 @@ language sql
 stable
 security definer
 set search_path = public, pg_temp
-as $
+as $$
   select exists (
     select 1
     from public.company_members target_member
     where target_member.user_id = p_user_id
       and public.is_company_member(target_member.company_id)
   );
-$;
+$$;
 
 create or replace function public.has_company_role(
   p_company_id uuid,
@@ -333,12 +333,12 @@ create or replace function public.set_quote_total_amount()
 returns trigger
 language plpgsql
 set search_path = public, pg_temp
-as $
+as $$
 begin
   new.total_amount := greatest(new.subtotal - new.discount_amount, 0) + new.tax_amount;
   return new;
 end;
-$;
+$$;
 
 create or replace function public.recalculate_quote_totals()
 returns trigger
