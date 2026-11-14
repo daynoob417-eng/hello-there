@@ -80,7 +80,7 @@ begin;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000001', true);
 select set_config('test.quote_a_id', :'quote_a_id', true);
-do $
+do $quote$
 declare
   actual_subtotal numeric(12,2);
   actual_total numeric(12,2);
@@ -101,8 +101,8 @@ begin
   if audit_count <> 1 then
     raise exception 'Expected one customer audit event, got %', audit_count;
   end if;
-end;
-$$;
+end; 
+$quote$;
 rollback;
 
 -- Only the owner may add a technician; technicians must not read the customer portfolio.
