@@ -2,8 +2,6 @@
 -- This file is a versioned schema definition. Committing it does NOT apply it to the live Cloud database.
 -- Apply through an authorized Lovable Cloud migration/deployment mechanism after reviewing the SQL.
 
-create extension if not exists pgcrypto;
-
 do $$ begin
   create type public.app_role as enum ('owner', 'admin', 'manager', 'technician');
 exception when duplicate_object then null; end $$;
@@ -89,7 +87,7 @@ create table if not exists public.leads (
   updated_at timestamptz not null default now(),
   unique (id, company_id),
   foreign key (customer_id, company_id)
-    references public.customers(id, company_id) on delete set null
+    references public.customers(id, company_id)
 );
 
 create table if not exists public.services (
@@ -313,6 +311,17 @@ begin
 end;
 $$;
 
+create or replace function public.set_quote_total_amount()
+returns trigger
+language plpgsql
+set search_path = public, pg_temp
+as $
+begin
+  new.total_amount := greatest(new.subtotal - new.discount_amount, 0) + new.tax_amount;
+  return new;
+end;
+$;
+
 create or replace function public.recalculate_quote_totals()
 returns trigger
 language plpgsql
@@ -326,6 +335,14 @@ begin
     v_quote_id := old.quote_id;
   else
     v_quote_id := new.quote_id;
+  end if;
+
+  if tg_op = 'UPDATE' and old.quote_id is distinct from new.quote_id then
+    update public.quotes q
+    set subtotal = coalesce((
+          select sum(qi.line_total) from public.quote_items qi where qi.quote_id = old.quote_id
+        ), 0)
+    where q.id = old.quote_id;
   end if;
 
   update public.quotes q
@@ -401,6 +418,11 @@ for each row execute function public.set_updated_at();
 drop trigger if exists quotes_set_updated_at on public.quotes;
 create trigger quotes_set_updated_at before update on public.quotes
 for each row execute function public.set_updated_at();
+
+drop trigger if exists quotes_set_total_amount on public.quotes;
+create trigger quotes_set_total_amount
+before insert or update of subtotal, discount_amount, tax_amount on public.quotes
+for each row execute function public.set_quote_total_amount();
 
 drop trigger if exists quote_items_recalculate_totals on public.quote_items;
 create trigger quote_items_recalculate_totals
@@ -570,6 +592,19 @@ create policy "audit_logs_read_admins" on public.audit_logs
 for select to authenticated
 using (public.has_company_role(company_id, array['owner', 'admin']::public.app_role[]));
 
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on
+  public.profiles, public.companies, public.company_members, public.customers,
+  public.leads, public.services, public.quotes, public.quote_items, public.audit_logs
+  to authenticated;
+revoke all on all tables in schema public from anon;
+grant usage, select on sequence public.audit_logs_id_seq to authenticated;
+
+revoke all on function public.set_updated_at() from public;
+revoke all on function public.handle_new_auth_user() from public;
+revoke all on function public.set_quote_total_amount() from public;
+revoke all on function public.recalculate_quote_totals() from public;
+revoke all on function public.write_audit_log() from public;
 revoke all on function public.create_company_for_current_user(text, text, text) from public;
 grant execute on function public.create_company_for_current_user(text, text, text) to authenticated;
 revoke all on function public.add_company_member(uuid, uuid, public.app_role) from public;
