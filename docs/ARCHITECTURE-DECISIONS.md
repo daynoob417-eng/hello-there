@@ -1,6 +1,6 @@
 # Decisões de arquitetura — Central de Orçamentos
 
-**Status:** Lovable Cloud escolhido pelo usuário; ativação e integração ainda precisam ser verificadas no projeto conectado.  
+**Status:** Lovable Cloud ativado no projeto (confirmação da usuária em 14/11/2026); primeira migração versionada no Git; aplicação no banco remoto e integração do app ainda pendentes.  
 **Escopo:** backend, autenticação, banco, armazenamento e funções de servidor.
 
 ## Decisão

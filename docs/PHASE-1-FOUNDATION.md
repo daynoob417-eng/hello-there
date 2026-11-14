@@ -71,4 +71,4 @@ Toda consulta deve limitar os registros à empresa autorizada. Criar testes que 
 
 ## Situação
 
-Lovable Cloud escolhido; ativação, integração e implementação ainda precisam ser verificadas. A interface inicial não comprova autenticação, banco conectado ou isolamento funcionando.
+Lovable Cloud ativado (confirmação da usuária em 14/11/2026). A migração inicial da fundação e do núcleo comercial foi versionada em `supabase/migrations/20261114140000_foundation_and_commercial_core.sql`. A aplicação no banco remoto, a integração do frontend e os testes reais de isolamento ainda estão pendentes. Consulte `docs/DATABASE-IMPLEMENTATION.md`.
