@@ -1,6 +1,6 @@
 # Fase 2 — Estrutura comercial inicial
 
-Esta fase implementará os primeiros módulos persistentes da Central de Orçamentos após a conclusão e validação da fundação multiempresa.
+Esta fase implementará os primeiros módulos persistentes da Central de Orçamentos após a conclusão e validação da fundação multiempresa com Appwrite.
 
 ## Entidades
 
@@ -11,8 +11,8 @@ Esta fase implementará os primeiros módulos persistentes da Central de Orçame
 ## Regras de negócio
 
 - Todos os registros pertencem a uma empresa.
-- Chaves estrangeiras compostas impedem relacionar lead, cliente ou serviço de empresas diferentes.
-- RLS do PostgreSQL permanece habilitada e forçada nas tabelas empresariais.
+- Relacionamentos devem impedir associar lead, cliente ou serviço de empresas diferentes.
+- Permissões do Appwrite e verificações server-side permanecem obrigatórias nas tabelas empresariais.
 - Clientes e leads ficam restritos a proprietário/administrador até que o vínculo com atendimentos atribuídos defina o acesso do técnico.
 - O catálogo pode ser consultado por membros autorizados da própria empresa; somente proprietário/administrador pode alterá-lo, salvo permissão explícita.
 - Serviços que exigem avaliação não podem ser reservados como execução confirmada diretamente.
@@ -21,16 +21,16 @@ Esta fase implementará os primeiros módulos persistentes da Central de Orçame
 
 ## Implementação
 
-- Modelar tabelas e relações em `src/db/schema` com Drizzle.
-- Gerar migrations com Drizzle Kit e revisar SQL antes da aplicação.
+- Modelar tabelas, colunas, relações e índices no Appwrite TablesDB.
+- Manter a definição do schema e configuração de permissões documentadas e versionadas no repositório.
 - Implementar serviços de domínio e server functions com validação de entrada.
-- Aplicar autorização no servidor e RLS no PostgreSQL.
+- Aplicar autorização no servidor e permissões no Appwrite.
 - Implementar CRUD real, busca, filtros, paginação e estados de interface.
 - Criar testes de persistência, integridade referencial e isolamento entre empresas.
 
 ## Dependências e limites
 
-- Depende da Fase 1 concluída: PostgreSQL conectado, Better Auth funcional, sessão validada e RLS testada.
+- Depende da Fase 1 concluída: Appwrite Auth funcional, sessão validada, Teams/permissões configurados e isolamento testado.
 - Esta fase ainda não está implementada.
 - A criação de clientes a partir de leads, orçamentos e agenda será implementada com validações transacionais.
 - Nenhum dado de demonstração poderá ser apresentado como dado real de uma empresa.
