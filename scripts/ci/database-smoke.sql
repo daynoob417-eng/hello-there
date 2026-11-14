@@ -1,4 +1,4 @@
-\\set ON_ERROR_STOP on
+\set ON_ERROR_STOP on
 
 -- Seed three identities after the migration has installed the profile trigger.
 insert into auth.users (id, raw_user_meta_data) values
@@ -9,13 +9,13 @@ insert into auth.users (id, raw_user_meta_data) values
 -- Create each tenant through the same authenticated RPC used by the application.
 set role authenticated;
 set request.jwt.claim.sub = '10000000-0000-4000-8000-000000000001';
-select public.create_company_for_current_user('Empresa A') as company_a_id \\gset
+select public.create_company_for_current_user('Empresa A') as company_a_id \gset
 reset role;
 reset request.jwt.claim.sub;
 
 set role authenticated;
 set request.jwt.claim.sub = '20000000-0000-4000-8000-000000000002';
-select public.create_company_for_current_user('Empresa B') as company_b_id \\gset
+select public.create_company_for_current_user('Empresa B') as company_b_id \gset
 reset role;
 reset request.jwt.claim.sub;
 
@@ -24,13 +24,13 @@ set role authenticated;
 set request.jwt.claim.sub = '10000000-0000-4000-8000-000000000001';
 insert into public.customers (company_id, name)
 values (:'company_a_id'::uuid, 'Cliente A')
-returning id as customer_a_id \\gset
+returning id as customer_a_id \gset
 insert into public.services (company_id, name, pricing_type, fixed_price)
 values (:'company_a_id'::uuid, 'Manutenção preventiva', 'fixed', 125.00)
-returning id as service_a_id \\gset
+returning id as service_a_id \gset
 insert into public.quotes (company_id, customer_id, discount_amount, tax_amount)
 values (:'company_a_id'::uuid, :'customer_a_id'::uuid, 20.00, 10.00)
-returning id as quote_a_id \\gset
+returning id as quote_a_id \gset
 insert into public.quote_items (company_id, quote_id, service_id, description, quantity, unit_price)
 values (:'company_a_id'::uuid, :'quote_a_id'::uuid, :'service_a_id'::uuid,
         'Duas unidades de serviço', 2, 125.00);
@@ -79,7 +79,8 @@ rollback;
 begin;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '10000000-0000-4000-8000-000000000001', true);
-do $$
+select set_config('test.quote_a_id', :'quote_a_id', true);
+do $
 declare
   actual_subtotal numeric(12,2);
   actual_total numeric(12,2);
@@ -87,7 +88,7 @@ declare
 begin
   select subtotal, total_amount into actual_subtotal, actual_total
   from public.quotes
-  where id = :'quote_a_id'::uuid;
+  where id = current_setting('test.quote_a_id')::uuid;
 
   if actual_subtotal <> 250.00 or actual_total <> 240.00 then
     raise exception 'Quote totals incorrect: subtotal %, total %', actual_subtotal, actual_total;
