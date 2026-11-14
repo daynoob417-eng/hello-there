@@ -201,6 +201,21 @@ as $$
   );
 $$;
 
+create or replace function public.are_company_colleagues(p_user_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public, pg_temp
+as $
+  select exists (
+    select 1
+    from public.company_members target_member
+    where target_member.user_id = p_user_id
+      and public.is_company_member(target_member.company_id)
+  );
+$;
+
 create or replace function public.has_company_role(
   p_company_id uuid,
   p_roles public.app_role[]
@@ -295,9 +310,12 @@ begin
   if not public.has_company_role(p_company_id, array['owner', 'admin']::public.app_role[]) then
     raise exception 'Not authorized to manage company members' using errcode = '42501';
   end if;
-  if p_role not in ('manager', 'technician') then
-    raise exception 'Only manager or technician roles can be assigned through this function'
-      using errcode = '22023';
+  if p_role = 'owner' then
+    raise exception 'Owner role cannot be assigned through this function' using errcode = '22023';
+  end if;
+  if p_role = 'admin'
+     and not public.has_company_role(p_company_id, array['owner']::public.app_role[]) then
+    raise exception 'Only the owner can assign the admin role' using errcode = '42501';
   end if;
   if not exists (select 1 from auth.users u where u.id = p_user_id) then
     raise exception 'User does not exist' using errcode = '22023';
@@ -453,9 +471,12 @@ alter table public.quote_items enable row level security;
 alter table public.audit_logs enable row level security;
 
 drop policy if exists "profiles_read_own" on public.profiles;
-create policy "profiles_read_own" on public.profiles
+create policy "profiles_read_self_or_colleagues" on public.profiles
 for select to authenticated
-using (id = (select auth.uid()));
+using (
+  id = (select auth.uid())
+  or public.are_company_colleagues(id)
+);
 
 drop policy if exists "profiles_update_own" on public.profiles;
 create policy "profiles_update_own" on public.profiles
@@ -616,3 +637,5 @@ revoke all on function public.is_company_member(uuid) from public;
 grant execute on function public.is_company_member(uuid) to authenticated;
 revoke all on function public.has_company_role(uuid, public.app_role[]) from public;
 grant execute on function public.has_company_role(uuid, public.app_role[]) to authenticated;
+revoke all on function public.are_company_colleagues(uuid) from public;
+grant execute on function public.are_company_colleagues(uuid) to authenticated;
