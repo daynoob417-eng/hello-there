@@ -1,24 +1,47 @@
-# Hello There
+# Central de Orçamentos
 
-oi
+Plataforma SaaS de gestão comercial, agendamento e operação para técnicos e pequenas empresas brasileiras de instalação e manutenção de ar-condicionado.
 
-This project was built with [Lovable](https://lovable.dev).
+## Objetivo
 
-## Build with Lovable
+Centralizar clientes, leads, catálogo de serviços, orçamentos, agenda, equipe técnica, execução de atendimentos, pagamentos e relatórios em três ambientes integrados: empresário, técnico e cliente.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/314436aa-a3a5-40d7-b562-54361580b401).
+## Stack atual do repositório
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- React 19 + TypeScript
+- Vite 8 com TanStack Start / TanStack Router
+- Tailwind CSS 4
+- shadcn/ui e Radix UI
+- TanStack React Query
+- Lucide React
+- Vitest
 
-## Development
+> A configuração atual do projeto foi gerada pelo Lovable e utiliza TanStack Start. A arquitetura será evoluída preservando essa base, em vez de trocar o framework sem necessidade.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Estado do desenvolvimento
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
+
+- [x] Substituir a página inicial em branco por uma primeira estrutura visual do produto.
+- [x] Aplicar nome, idioma e metadados da Central de Orçamentos.
+- [x] Criar navegação inicial responsiva para os módulos previstos.
+- [ ] Configurar Supabase Authentication e sessão.
+- [ ] Criar esquema PostgreSQL e migrations.
+- [ ] Implementar RLS e validar isolamento entre empresas.
+- [ ] Implementar perfis, empresas, membros e permissões.
+- [ ] Conectar os módulos a dados persistidos e testar os fluxos.
+
+## Importante
+
+A interface inicial não representa uma aplicação pronta. Indicadores e listas permanecem sem dados até a integração com o backend. Não há dados comerciais fictícios apresentados como reais. Recursos ainda não implementados são identificados como pendentes.
+
+## Executar localmente
+
+```bash
+npm install
 npm run dev
 ```
+
+## Qualidade
+
+Antes de considerar qualquer módulo concluído, validar persistência, autorização no servidor/banco, estados de carregamento e erro, responsividade e testes funcionais.
