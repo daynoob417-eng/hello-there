@@ -1,8 +1,14 @@
-# Project instructions — Central de Orçamentos
+# Project instructions — Negócio em Ordem
 
 ## Product
 
-Build a production-minded SaaS for Brazilian air-conditioning installation and maintenance businesses. Preserve the three integrated environments: empresário, técnico and cliente, and follow the user's Prompt Mestre.
+Build a clear, polished, responsive sales-page demonstration for **Negócio em Ordem**, a proposed simple organization tool for self-employed people and small-business owners.
+
+Core message:
+- Brand: Negócio em Ordem
+- Headline: Seu negócio merece funcionar com mais organização.
+- Supporting message: Organize clientes, vendas, tarefas e dinheiro em um só lugar.
+- Campaign line: Menos tarefas perdidas. Mais controle. Mais oportunidades de venda.
 
 ## Mandatory workflow
 
@@ -10,34 +16,19 @@ Build a production-minded SaaS for Brazilian air-conditioning installation and m
 2. GitHub: implement on a feature branch, review, run lint/tests/build and open/update a pull request. Never push directly to main.
 3. Lovable: synchronize and visually verify the approved code after it reaches the connected branch. Do not claim visual verification unless it was actually performed.
 
-## Architecture — Lovable Cloud
+## Scope and transparency
 
-- Use **Lovable Cloud** as the managed backend selected by the user.
-- Lovable Cloud manages the backend resources through the Lovable project: database, authentication, file storage and server/edge functions where required.
-- Important clarification: Lovable Cloud is built on Supabase technology behind the scenes. The user does not need to create or manage a separate Supabase project or configure a separate Supabase account for this architecture.
-- Do not provision Neon, Appwrite, a separate Supabase project, Drizzle, Better Auth, Hyperdrive or another parallel backend.
-- Keep the existing React + TypeScript + Vite + TanStack foundation unless compatibility testing in Lovable proves a change is necessary.
-- Keep the current frontend hosting/runtime decision separate from the backend decision. Do not silently migrate hosting or remove Cloudflare configuration without a reviewed plan.
-- Use the official Lovable Cloud integration/configuration generated for this project. Do not hand-write or guess project IDs, endpoints, environment variables, SDK setup or secrets.
-- Lovable remains the project's visual editor and Git synchronization surface. Lovable Cloud is the managed backend.
-
-## Security and business rules
-
-- Every tenant-owned record must be scoped to a company.
-- Enforce tenant authorization with database row-level security policies and server-side checks for privileged operations. UI route guards alone are not security.
-- Never trust a company ID supplied by the browser without validating the authenticated user's membership.
-- Keep service-role/admin secrets server-side only. Never expose them through VITE_ variables or commit them.
-- Public customer access must use high-entropy random tokens, store only token hashes where feasible, and scope access to one appointment.
-- Booking confirmation must be atomic and prevent overlapping reservations, including concurrent requests. Prove the selected database constraint/transaction strategy with concurrency tests before enabling real bookings.
-- A quote approval, scheduled service or completed service is not received payment.
-- Do not present simulated records or metrics as real company data.
-- Validate uploads by type, size, authorization and company ownership.
+- The current product scope is a sales-page demonstration, not a production SaaS.
+- Preserve the existing React + TypeScript + Vite + TanStack foundation and Lovable compatibility.
+- Do not add authentication, databases, payment processing, analytics, email delivery or external services unless the user explicitly requests them.
+- Demo metrics, sample records and prices must be clearly labeled as illustrative.
+- Forms must clearly disclose when they do not submit or store information.
+- Never invent customer testimonials, endorsements, business results or live integrations.
+- Keep the page mobile-first, accessible and in Brazilian Portuguese.
 
 ## Code quality
 
-- Preserve the existing app foundation unless a documented decision justifies a change.
-- Do not edit generated files whose headers identify them as generated.
-- Add tests for business rules, permissions, tenant isolation and concurrency-sensitive flows.
+- Preserve generated files and existing build configuration unless a reviewed compatibility change is necessary.
+- Do not commit secrets, credentials, local environment files or real customer data.
 - Before a pull request, run npm run lint, npm test and npm run build.
 - Do not rewrite published Git history or force-push.
-- Do not commit secrets, credentials, local environment files or real customer data.
