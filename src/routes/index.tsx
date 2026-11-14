@@ -338,9 +338,7 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
               <div key={label} className="flex items-center gap-3">
                 <div
                   className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                    state === "current"
-                      ? "bg-blue-50 text-blue-600"
-                      : "bg-slate-100 text-slate-400"
+                    state === "current" ? "bg-blue-50 text-blue-600" : "bg-slate-100 text-slate-400"
                   }`}
                 >
                   {state === "current" ? (
@@ -374,8 +372,8 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
           </p>
           <p className="mt-1 text-xs leading-relaxed text-slate-600">
             Este painel é a base visual inicial. Nenhum dado comercial ou financeiro está sendo
-            inventado ou armazenado localmente. A próxima etapa é configurar autenticação,
-            banco de dados e isolamento por empresa.
+            inventado ou armazenado localmente. A próxima etapa é configurar autenticação, banco de
+            dados e isolamento por empresa.
           </p>
         </div>
       </div>
