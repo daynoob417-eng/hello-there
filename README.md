@@ -27,10 +27,11 @@ O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
 - [x] Criar navegação inicial responsiva para os módulos previstos.
 - [x] Remover os arquivos de migração legados da pasta Supabase.
 - [x] Definir Lovable Cloud como backend gerenciado escolhido.
-- [ ] Confirmar a ativação do Lovable Cloud no projeto conectado.
-- [ ] Configurar autenticação, perfis, empresas e permissões.
-- [ ] Criar tabelas e relacionamentos para os dados comerciais.
-- [ ] Implementar e testar isolamento entre empresas.
+- [x] Confirmar a ativação do Lovable Cloud no projeto conectado (14/11/2026).
+- [x] Versionar a migração inicial para perfis, empresas, membros e núcleo comercial.
+- [ ] Aplicar a migração ao banco Lovable Cloud.
+- [ ] Integrar o frontend à autenticação e aos dados persistidos.
+- [ ] Testar isolamento entre empresas com usuários reais.
 - [ ] Validar operações transacionais e concorrência do agendamento.
 - [ ] Conectar os módulos a dados persistidos e validar os fluxos.
 
