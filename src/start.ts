@@ -1,7 +1,6 @@
 import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
-import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
@@ -25,11 +24,9 @@ const csrfMiddleware = createCsrfMiddleware({
   filter: (ctx) => ctx.handlerType === "serverFn",
 });
 
-// requestMiddleware runs on every request. Keep security middleware here and
-// add Lovable Cloud session validation only after its generated integration is
-// available and verified. Never trust client-provided sendContext as proof of
-// identity, company membership, or permissions.
+// Lovable Cloud session validation will be added only after its official
+// generated integration is available and verified. Never trust client-provided
+// sendContext as proof of identity, company membership, or permissions.
 export const startInstance = createStart(() => ({
-  functionMiddleware: [attachSupabaseAuth],
   requestMiddleware: [errorMiddleware, csrfMiddleware],
 }));
