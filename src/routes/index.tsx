@@ -232,8 +232,8 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
             Sua operação, em um só lugar.
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-300">
-            Organize clientes, propostas e atendimentos de climatização com uma visão clara de
-            cada etapa do negócio.
+            Organize clientes, propostas e atendimentos de climatização com uma visão clara de cada
+            etapa do negócio.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <button
@@ -257,7 +257,9 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
         <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
           <div>
             <h3 className="text-base font-bold text-[#10243A]">Indicadores da operação</h3>
-            <p className="mt-1 text-xs text-slate-500">Os números aparecerão após a conexão do banco de dados.</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Os números aparecerão após a conexão do banco de dados.
+            </p>
           </div>
           <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-amber-700">
             <Clock3 className="h-3.5 w-3.5" />
@@ -274,12 +276,17 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
               green: "bg-green-50 text-green-700",
             }[item.tone];
             return (
-              <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/[0.02]">
+              <div
+                key={item.label}
+                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/[0.02]"
+              >
                 <div className="flex items-center justify-between">
                   <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${tone}`}>
                     <Icon className="h-[18px] w-[18px]" />
                   </div>
-                  <span className="rounded-md bg-slate-50 px-2 py-1 text-[10px] font-semibold text-slate-400">SEM DADOS</span>
+                  <span className="rounded-md bg-slate-50 px-2 py-1 text-[10px] font-semibold text-slate-400">
+                    SEM DADOS
+                  </span>
                 </div>
                 <p className="mt-4 text-[13px] font-medium text-slate-500">{item.label}</p>
                 <p className="mt-1 text-2xl font-bold tracking-tight text-[#10243A]">—</p>
@@ -308,9 +315,12 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-400 shadow-sm">
               <CalendarDays className="h-5 w-5" />
             </div>
-            <p className="mt-3 text-sm font-semibold text-slate-700">Nenhum compromisso disponível</p>
+            <p className="mt-3 text-sm font-semibold text-slate-700">
+              Nenhum compromisso disponível
+            </p>
             <p className="mt-1 max-w-sm text-xs leading-relaxed text-slate-500">
-              Os agendamentos serão exibidos aqui assim que a agenda estiver conectada e configurada.
+              Os agendamentos serão exibidos aqui assim que a agenda estiver conectada e
+              configurada.
             </p>
           </div>
         </div>
@@ -326,16 +336,28 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
               ["Agenda e operação técnica", "Pendente", "pending"],
             ].map(([label, status, state]) => (
               <div key={label} className="flex items-center gap-3">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                  state === "current" ? "bg-blue-50 text-blue-600" : "bg-slate-100 text-slate-400"
-                }`}>
-                  {state === "current" ? <Activity className="h-4 w-4" /> : <Clock3 className="h-4 w-4" />}
+                <div
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                    state === "current"
+                      ? "bg-blue-50 text-blue-600"
+                      : "bg-slate-100 text-slate-400"
+                  }`}
+                >
+                  {state === "current" ? (
+                    <Activity className="h-4 w-4" />
+                  ) : (
+                    <Clock3 className="h-4 w-4" />
+                  )}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-semibold text-slate-700">{label}</p>
                   <p className="text-[11px] text-slate-400">{status}</p>
                 </div>
-                <span className={`h-2 w-2 rounded-full ${state === "current" ? "bg-blue-500" : "bg-slate-300"}`} />
+                <span
+                  className={`h-2 w-2 rounded-full ${
+                    state === "current" ? "bg-blue-500" : "bg-slate-300"
+                  }`}
+                />
               </div>
             ))}
           </div>
@@ -347,10 +369,13 @@ function DashboardOverview({ onOpenSection }: { onOpenSection: (section: string)
           <ShieldCheck className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#10243A]">Seus dados ainda não estão conectados</p>
+          <p className="text-sm font-semibold text-[#10243A]">
+            Seus dados ainda não estão conectados
+          </p>
           <p className="mt-1 text-xs leading-relaxed text-slate-600">
-            Este painel é a base visual inicial. Nenhum dado comercial ou financeiro está sendo inventado ou armazenado localmente.
-            A próxima etapa é configurar autenticação, banco de dados e isolamento por empresa.
+            Este painel é a base visual inicial. Nenhum dado comercial ou financeiro está sendo
+            inventado ou armazenado localmente. A próxima etapa é configurar autenticação,
+            banco de dados e isolamento por empresa.
           </p>
         </div>
       </div>
@@ -385,7 +410,8 @@ function ModulePlaceholder({ section }: { section: string }) {
       <div className="mt-6 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4">
         <p className="text-xs font-semibold text-slate-600">Implementação ainda não iniciada</p>
         <p className="mt-1 text-xs text-slate-400">
-          Esta área será ativada quando suas regras, banco de dados e permissões estiverem implementados e testados.
+          Esta área será ativada quando suas regras, banco de dados e permissões estiverem
+          implementados e testados.
         </p>
       </div>
     </section>
