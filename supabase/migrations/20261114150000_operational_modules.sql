@@ -392,26 +392,13 @@ on public.inventory_movements for insert to authenticated
 with check (
   public.has_company_role(company_id, array['owner', 'admin', 'manager']::public.app_role[])
 );
-create policy inventory_movements_update_managers
-on public.inventory_movements for update to authenticated
-using (
-  public.has_company_role(company_id, array['owner', 'admin', 'manager']::public.app_role[])
-)
-with check (
-  public.has_company_role(company_id, array['owner', 'admin', 'manager']::public.app_role[])
-);
-create policy inventory_movements_delete_admins
-on public.inventory_movements for delete to authenticated
-using (
-  public.has_company_role(company_id, array['owner', 'admin']::public.app_role[])
-);
-
 revoke all on public.appointments, public.payments, public.expenses,
   public.inventory_items, public.inventory_movements from public, anon;
 revoke all on public.inventory_stock_balances from public, anon;
 grant select, insert, update, delete on
   public.appointments, public.payments, public.expenses,
-  public.inventory_items, public.inventory_movements to authenticated;
+  public.inventory_items to authenticated;
+grant select, insert on public.inventory_movements to authenticated;
 grant select on public.inventory_stock_balances to authenticated;
 
 revoke all on function public.prevent_technician_appointment_overlap() from public, anon, authenticated;
