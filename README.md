@@ -27,9 +27,9 @@ O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
 - [x] Criar navegação inicial responsiva para os módulos previstos.
 - [x] Remover os arquivos de migração legados da pasta Supabase.
 - [x] Definir Lovable Cloud como backend gerenciado escolhido.
-- [x] Confirmar a ativação do Lovable Cloud no projeto conectado (14/11/2026).
+- [ ] Verificar a ativação e os recursos do Lovable Cloud no projeto conectado.
 - [x] Versionar a migração inicial para perfis, empresas, membros e núcleo comercial.
-- [ ] Aplicar a migração ao banco Lovable Cloud.
+- [ ] Aplicar a migração ao banco Lovable Cloud por mecanismo autorizado, após inspeção dos recursos existentes.
 - [ ] Integrar o frontend à autenticação e aos dados persistidos.
 - [ ] Testar isolamento entre empresas com usuários reais.
 - [ ] Validar operações transacionais e concorrência do agendamento.
@@ -38,6 +38,8 @@ O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
 ## Importante
 
 A interface inicial não representa uma aplicação pronta. Indicadores e listas não devem apresentar dados fictícios como dados reais. Recursos ainda não implementados devem permanecer identificados como pendentes.
+
+A migração versionada e os testes PostgreSQL executados no CI validam o código e o comportamento básico de RLS em um banco descartável. Eles **não comprovam** que a migração foi aplicada ao Lovable Cloud real nem substituem testes com sessões e usuários reais no projeto conectado.
 
 Nenhuma credencial ou chave administrativa pode ser versionada ou exposta ao navegador.
 
