@@ -203,7 +203,7 @@ begin
       company_id, customer_id, technician_id, scheduled_start, scheduled_end
     )
     values (
-      :'company_a_id'::uuid, :'customer_a_id'::uuid,
+      current_setting('test.company_a_id')::uuid, current_setting('test.customer_a_id')::uuid,
       '30000000-0000-4000-8000-000000000003'::uuid,
       '2099-04-10 10:00:00+00', '2099-04-10 11:00:00+00'
     );
@@ -217,7 +217,7 @@ begin
       company_id, item_id, movement_type, quantity_delta
     )
     values (
-      :'company_a_id'::uuid, :'inventory_item_a_id'::uuid, 'exit', -99
+      current_setting('test.company_a_id')::uuid, current_setting('test.inventory_item_a_id')::uuid, 'exit', -99
     );
     raise exception 'Inventory balance check unexpectedly allowed negative stock';
   exception
