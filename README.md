@@ -6,34 +6,39 @@ Plataforma SaaS de gestão comercial, agendamento e operação para técnicos e 
 
 Centralizar clientes, leads, catálogo de serviços, orçamentos, agenda, equipe técnica, execução de atendimentos, pagamentos e relatórios em três ambientes integrados: empresário, técnico e cliente.
 
-## Stack atual do repositório
+## Stack do produto
 
-- React 19 + TypeScript
-- Vite 8 com TanStack Start / TanStack Router
-- Tailwind CSS 4
-- shadcn/ui e Radix UI
-- TanStack React Query
-- Lucide React
-- Vitest
+- React + TypeScript + Vite
+- TanStack Start / TanStack Router (base existente; compatibilidade com o fluxo de build e sincronização do Lovable deve ser validada)
+- Tailwind CSS + shadcn/ui
+- **Lovable Cloud** para backend gerenciado: banco de dados, autenticação, armazenamento e funções de servidor quando necessárias
+- Vitest para testes
 
-> A configuração atual do projeto foi gerada pelo Lovable e utiliza TanStack Start. A arquitetura será evoluída preservando essa base, em vez de trocar o framework sem necessidade.
+O backend será gerenciado pelo Lovable Cloud dentro do projeto conectado. **Nota transparente:** Lovable Cloud utiliza tecnologia Supabase nos bastidores, mas não exige que o usuário configure ou administre um projeto Supabase separado. Não criar um segundo backend nem configurar Neon ou Appwrite.
+
+A hospedagem do frontend permanece uma decisão separada e não será alterada sem validação de compatibilidade.
 
 ## Estado do desenvolvimento
 
 O projeto está no início da Fase 1 (Fundação), conforme o Prompt Mestre.
 
-- [x] Substituir a página inicial em branco por uma primeira estrutura visual do produto.
+- [x] Criar a primeira estrutura visual do produto.
 - [x] Aplicar nome, idioma e metadados da Central de Orçamentos.
 - [x] Criar navegação inicial responsiva para os módulos previstos.
-- [ ] Configurar Supabase Authentication e sessão.
-- [ ] Criar esquema PostgreSQL e migrations.
-- [ ] Implementar RLS e validar isolamento entre empresas.
-- [ ] Implementar perfis, empresas, membros e permissões.
-- [ ] Conectar os módulos a dados persistidos e testar os fluxos.
+- [x] Remover os arquivos de migração legados da pasta Supabase.
+- [x] Definir Lovable Cloud como backend gerenciado escolhido.
+- [ ] Confirmar a ativação do Lovable Cloud no projeto conectado.
+- [ ] Configurar autenticação, perfis, empresas e permissões.
+- [ ] Criar tabelas e relacionamentos para os dados comerciais.
+- [ ] Implementar e testar isolamento entre empresas.
+- [ ] Validar operações transacionais e concorrência do agendamento.
+- [ ] Conectar os módulos a dados persistidos e validar os fluxos.
 
 ## Importante
 
-A interface inicial não representa uma aplicação pronta. Indicadores e listas permanecem sem dados até a integração com o backend. Não há dados comerciais fictícios apresentados como reais. Recursos ainda não implementados são identificados como pendentes.
+A interface inicial não representa uma aplicação pronta. Indicadores e listas não devem apresentar dados fictícios como dados reais. Recursos ainda não implementados devem permanecer identificados como pendentes.
+
+Nenhuma credencial ou chave administrativa pode ser versionada ou exposta ao navegador.
 
 ## Executar localmente
 
@@ -44,4 +49,4 @@ npm run dev
 
 ## Qualidade
 
-Antes de considerar qualquer módulo concluído, validar persistência, autorização no servidor/banco, estados de carregamento e erro, responsividade e testes funcionais.
+Antes de considerar qualquer módulo concluído, validar persistência, autorização em cada endpoint/server function, permissões por empresa, estados de carregamento e erro, responsividade e testes funcionais.
