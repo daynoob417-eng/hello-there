@@ -203,7 +203,8 @@ begin
       company_id, customer_id, technician_id, scheduled_start, scheduled_end
     )
     values (
-      current_setting('test.company_a_id')::uuid, current_setting('test.customer_a_id')::uuid,
+      (select company_id from public.company_members where user_id = '10000000-0000-4000-8000-000000000001'::uuid),
+      (select id from public.customers where name = 'Cliente A' limit 1),
       '30000000-0000-4000-8000-000000000003'::uuid,
       '2099-04-10 10:00:00+00', '2099-04-10 11:00:00+00'
     );
@@ -217,7 +218,8 @@ begin
       company_id, item_id, movement_type, quantity_delta
     )
     values (
-      current_setting('test.company_a_id')::uuid, current_setting('test.inventory_item_a_id')::uuid, 'exit', -99
+      (select company_id from public.company_members where user_id = '10000000-0000-4000-8000-000000000001'::uuid),
+      (select id from public.inventory_items where sku = 'COBRE-001' limit 1), 'exit', -99
     );
     raise exception 'Inventory balance check unexpectedly allowed negative stock';
   exception
