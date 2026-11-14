@@ -50,7 +50,7 @@ create table if not exists public.leads (
   need_description text,
   stage text not null default 'new'
     check (stage in ('new', 'contacted', 'negotiating', 'quote_sent', 'won', 'lost')),
-  assigned_to uuid references auth.users (id) on delete set null,
+  assigned_to uuid,
   entered_at timestamptz not null default now(),
   follow_up_at timestamptz,
   lost_reason text,
@@ -58,6 +58,9 @@ create table if not exists public.leads (
   created_by uuid not null default auth.uid() references auth.users (id),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+  constraint leads_assigned_member_same_company_fk
+    foreign key (company_id, assigned_to)
+    references public.company_members (company_id, user_id) on delete set null (assigned_to),
   constraint leads_customer_same_company_fk
     foreign key (company_id, customer_id)
     references public.customers (company_id, id) on delete set null (customer_id),
@@ -182,7 +185,7 @@ drop policy if exists "leads_delete_admins" on public.leads;
 create policy "leads_delete_admins"
 on public.leads for delete
 to authenticated
-using (public.has_company_role(company_id, array['owner']));
+using (public.has_company_role(company_id, array['owner', 'admin']));
 
 drop policy if exists "services_select_members" on public.services;
 create policy "services_select_members"
@@ -210,7 +213,7 @@ drop policy if exists "services_delete_admins" on public.services;
 create policy "services_delete_admins"
 on public.services for delete
 to authenticated
-using (public.has_company_role(company_id, array['owner']));
+using (public.has_company_role(company_id, array['owner', 'admin']));
 
 grant select, insert, update, delete on public.customers to authenticated;
 grant select, insert, update, delete on public.leads to authenticated;
