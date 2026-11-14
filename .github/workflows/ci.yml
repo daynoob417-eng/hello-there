@@ -6,8 +6,9 @@ on:
   push:
     branches: [main, "feature/**", "feat/**", "fix/**"]
 
+# CI only validates code; it must never write back to repository branches.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -21,8 +22,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
 
       - name: Configure Node.js
         uses: actions/setup-node@v4
@@ -35,20 +34,8 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Format landing page files
-        run: npx prettier --write src/routes/index.tsx src/routes/__root.tsx
-
-      - name: Commit formatting when needed
-        env:
-          GH_BRANCH: ${{ github.head_ref || github.ref_name }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/routes/index.tsx src/routes/__root.tsx
-          if ! git diff --cached --quiet; then
-            git commit -m "style: format Negocio em Ordem landing page"
-            git push origin "HEAD:${GH_BRANCH}"
-          fi
+      - name: Check formatting
+        run: npx prettier --check src/routes/index.tsx src/routes/__root.tsx
 
       - name: Lint
         run: npm run lint
