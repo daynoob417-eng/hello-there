@@ -613,11 +613,37 @@ create policy "audit_logs_read_admins" on public.audit_logs
 for select to authenticated
 using (public.has_company_role(company_id, array['owner', 'admin']::public.app_role[]));
 
+-- Remove inherited/default access before granting the minimum app permissions.
+revoke all on all tables in schema public from public, anon;
+revoke all on all sequences in schema public from public, anon;
+
 grant usage on schema public to authenticated;
 grant select, insert, update, delete on
   public.profiles, public.companies, public.company_members, public.customers,
   public.leads, public.services, public.quotes, public.quote_items, public.audit_logs
   to authenticated;
+
+-- Internal trigger functions are not callable directly by API roles.
+revoke all on function public.set_updated_at() from public, anon, authenticated;
+revoke all on function public.handle_new_auth_user() from public, anon, authenticated;
+revoke all on function public.set_quote_total_amount() from public, anon, authenticated;
+revoke all on function public.recalculate_quote_totals() from public, anon, authenticated;
+revoke all on function public.write_audit_log() from public, anon, authenticated;
+
+-- Authorization helpers are callable only by signed-in application users.
+revoke all on function public.is_company_member(uuid) from public, anon, authenticated;
+revoke all on function public.are_company_colleagues(uuid) from public, anon, authenticated;
+revoke all on function public.has_company_role(uuid, public.app_role[]) from public, anon, authenticated;
+grant execute on function public.is_company_member(uuid) to authenticated;
+grant execute on function public.are_company_colleagues(uuid) to authenticated;
+grant execute on function public.has_company_role(uuid, public.app_role[]) to authenticated;
+
+-- Privileged company operations are callable only by authenticated users;
+-- authorization is checked inside each SECURITY DEFINER function.
+revoke all on function public.create_company_for_current_user(text, text, text) from public, anon, authenticated;
+revoke all on function public.add_company_member(uuid, uuid, public.app_role) from public, anon, authenticated;
+grant execute on function public.create_company_for_current_user(text, text, text) to authenticated;
+grant execute on function public.add_company_member(uuid, uuid, public.app_role) to authenticated;
 revoke all on
   public.profiles, public.companies, public.company_members, public.customers,
   public.leads, public.services, public.quotes, public.quote_items, public.audit_logs
