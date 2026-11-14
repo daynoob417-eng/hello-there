@@ -143,4 +143,116 @@ begin
 end;
 $$;
 
+
+-- Operational modules: appointments, payments, expenses and inventory.
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-4000-8000-000000000001';
+
+insert into public.appointments (
+  company_id, customer_id, quote_id, technician_id,
+  scheduled_start, scheduled_end, service_address
+)
+values (
+  :'company_a_id'::uuid, :'customer_a_id'::uuid, :'quote_a_id'::uuid,
+  '30000000-0000-4000-8000-000000000003'::uuid,
+  '2099-04-10 09:00:00+00', '2099-04-10 10:30:00+00',
+  'Rua de teste, 100'
+)
+returning id as appointment_a_id \gset
+
+insert into public.payments (
+  company_id, customer_id, quote_id, appointment_id, amount, method, status
+)
+values (
+  :'company_a_id'::uuid, :'customer_a_id'::uuid, :'quote_a_id'::uuid,
+  :'appointment_a_id'::uuid, 240.00, 'pix', 'pending'
+);
+
+insert into public.expenses (
+  company_id, description, category, amount, due_date
+)
+values (
+  :'company_a_id'::uuid, 'Compra de materiais', 'Materiais', 75.50, '2099-04-15'
+);
+
+insert into public.inventory_items (company_id, name, sku, unit, minimum_quantity)
+values (:'company_a_id'::uuid, 'Tubo de cobre', 'COBRE-001', 'metro', 2)
+returning id as inventory_item_a_id \gset
+
+insert into public.inventory_movements (
+  company_id, item_id, movement_type, quantity_delta, reason
+)
+values
+  (:'company_a_id'::uuid, :'inventory_item_a_id'::uuid, 'entry', 10, 'Estoque inicial'),
+  (:'company_a_id'::uuid, :'inventory_item_a_id'::uuid, 'exit', -3, 'Uso em atendimento');
+
+do $operational$
+declare
+  stock numeric(12,3);
+begin
+  select quantity_on_hand into stock
+  from public.inventory_stock_balances
+  where sku = 'COBRE-001';
+
+  if stock <> 7 then
+    raise exception 'Inventory balance incorrect: expected 7, got %', stock;
+  end if;
+
+  begin
+    insert into public.appointments (
+      company_id, customer_id, technician_id, scheduled_start, scheduled_end
+    )
+    values (
+      (select company_id from public.company_members where user_id = '10000000-0000-4000-8000-000000000001'::uuid),
+      (select id from public.customers where name = 'Cliente A' limit 1),
+      '30000000-0000-4000-8000-000000000003'::uuid,
+      '2099-04-10 10:00:00+00', '2099-04-10 11:00:00+00'
+    );
+    raise exception 'Appointment overlap check unexpectedly allowed a conflict';
+  exception
+    when exclusion_violation then null;
+  end;
+
+  begin
+    insert into public.inventory_movements (
+      company_id, item_id, movement_type, quantity_delta
+    )
+    values (
+      (select company_id from public.company_members where user_id = '10000000-0000-4000-8000-000000000001'::uuid),
+      (select id from public.inventory_items where sku = 'COBRE-001' limit 1), 'exit', -99
+    );
+    raise exception 'Inventory balance check unexpectedly allowed negative stock';
+  exception
+    when check_violation then null;
+  end;
+end;
+$operational$;
+
+reset role;
+reset request.jwt.claim.sub;
+
+-- A technician can see their own appointments but not financial records.
+begin;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '30000000-0000-4000-8000-000000000003', true);
+do $operational$
+declare
+  appointment_count integer;
+  payment_count integer;
+  expense_count integer;
+begin
+  select count(*) into appointment_count from public.appointments;
+  select count(*) into payment_count from public.payments;
+  select count(*) into expense_count from public.expenses;
+
+  if appointment_count <> 1 then
+    raise exception 'Technician should see exactly one assigned appointment, got %', appointment_count;
+  end if;
+  if payment_count <> 0 or expense_count <> 0 then
+    raise exception 'Technician unexpectedly read financial records';
+  end if;
+end;
+$operational$;
+rollback;
+
 select 'database migration and RLS smoke tests passed' as result;
