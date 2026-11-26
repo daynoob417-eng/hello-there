@@ -1,60 +1,40 @@
-# Project instructions — Central de Orçamentos
+# Instruções do projeto — Assistente de Conteúdo e Vendas com IA
 
-## Product
+## Produto
+Construir uma plataforma simples, acessível e responsiva para pequenos negócios brasileiros criarem conteúdo e melhorarem o atendimento comercial com apoio de IA.
 
-Build the actual working **Central de Orçamentos** product for independent HVAC installation and maintenance technicians and small service businesses in Brazil. This is a production-oriented business application, not a sales page, marketing site, or static demonstration.
+## Objetivo do produto
+Ajudar o empreendedor a transformar informações do próprio negócio em materiais prontos para uso:
+- Legendas comerciais para redes sociais.
+- Calendário de publicações.
+- Respostas para clientes.
+- Roteiros de vídeos curtos.
+- Ideias de campanhas, ofertas e ações de venda.
+- Prompts e orientações práticos, sem exigir que o usuário saiba escrever prompts.
 
-The product must support the full operational cycle:
+A experiência deve ser guiada: o usuário cadastra ou informa seu segmento, produtos/serviços, público e tom de comunicação; as ferramentas usam esse contexto para gerar resultados relevantes.
 
-first contact → customer → quote → approval → scheduling → service execution → billing/payment tracking → history and reporting.
+## Princípios
+- Priorizar facilidade de uso no celular e português do Brasil.
+- Resolver tarefas reais; não criar botões sem ação nem telas que finjam funcionalidades.
+- Não apresentar conteúdo demonstrativo como resultado real.
+- Explicar limites da IA e permitir revisão do conteúdo antes de copiar ou publicar.
+- Proteger dados dos negócios e dos clientes, seguindo princípios da LGPD.
+- Evitar integrações, dependências e serviços desnecessários.
 
-Core modules, delivered incrementally:
-- Business dashboard with real data and useful operational indicators.
-- Customers and lead pipeline.
-- Service, product, and material catalog.
-- Quotes with line items, server-calculated totals, validity, version history, PDF/share flow, and customer approval/decline.
-- Scheduling with working hours, blocked periods, service duration, capacity, and backend conflict prevention.
-- Team members, roles, and technician assignment.
-- Work orders with checklist, diagnosis, materials, notes, photos, and status history.
-- Secure customer portal links for requests, quote review, approval, and service tracking.
-- Receivables, recorded payments, expenses, inventory movements, and real reports.
-- Settings, audit history, and notifications.
+## Arquitetura
+- Preservar React, TypeScript, TanStack Start, Vite e a compatibilidade existente com Lovable.
+- Não presumir que backend, autenticação, banco ou provedor de IA estejam configurados. Verificar a integração real antes de implementar.
+- Não inventar SDKs, credenciais ou variáveis de ambiente. Nunca versionar segredos.
+- Não adicionar outro backend ou banco sem decisão explícita e análise de compatibilidade.
+- Manter componentes acessíveis, reutilizáveis e responsivos.
 
-## Architecture decisions
+## Fluxo obrigatório de trabalho
+1. **ChatGPT:** analisar o objetivo, planejar a alteração, definir arquivos e preparar a implementação.
+2. **GitHub:** executar em branch de trabalho, revisar o diff, rodar lint/testes/build quando disponíveis e abrir Pull Request. Nunca alterar `main` diretamente.
+3. **Lovable:** somente depois da revisão/aprovação e integração do PR, sincronizar a branch `main`, conferir o commit recebido e verificar visualmente a aplicação.
+4. Ao orientar a etapa Lovable, sempre fornecer os comandos Git exatos e explicar em que terminal/local devem ser executados. Não pedir à IA do Lovable para reescrever código que já foi implementado e validado no GitHub.
+5. Não mesclar PR sem aprovação explícita do usuário.
 
-- Use **Lovable Cloud as the single managed backend** for database, authentication, storage, and server-side functionality.
-- Do not create or administer a separate Supabase project or introduce another backend provider.
-- Do not assume Lovable Cloud is active or wired merely because the repository is connected to Lovable. Verify the actual project integration before implementing backend clients or migrations.
-- Do not invent SDKs, credentials, environment variables, or database connection details. Never commit secrets.
-- Preserve the existing React, TypeScript, TanStack Start, Vite, and Lovable-compatible foundation unless a reviewed compatibility change is necessary.
-- Any demo/sample data must be explicitly labeled. Do not present local-only state as persisted product functionality.
-
-## Security and data integrity
-
-- Enforce company/workspace data isolation on the server for every operation.
-- Apply least-privilege roles for owner/admin, technician, and customer access.
-- Validate inputs and calculate monetary totals on the server; use decimal-safe money handling.
-- Prevent overlapping bookings under concurrent requests.
-- Keep audit history for sensitive business operations and inventory movements.
-- Protect customer portal tokens, uploads, and personal data; apply LGPD principles.
-- Do not expose financial data to technicians or unrelated customers.
-
-## Mandatory workflow
-
-1. Analyze the existing repository and the product specification.
-2. Implement on a feature branch; never push directly to `main`.
-3. Run lint, tests, and build where available; add focused tests for new behavior.
-4. Open a pull request describing scope, validation, and any unresolved integration dependency.
-5. Do not merge a pull request without the user's explicit approval.
-6. Lovable may synchronize and visually verify the approved code; do not claim visual verification unless actually performed.
-
-## Definition of done
-
-A module is not complete merely because its screen looks finished. It must perform its real workflow, persist and retrieve data through the approved backend, enforce authorization and company isolation, handle loading/empty/error states, and have appropriate tests. If backend integration cannot yet be verified, report the blocker clearly and do not fake persistence.
-
-## Scope and communication
-
-- Work toward the actual operational product, not a landing page or marketing demonstration.
-- Do not replace the product with a generic sales page.
-- Keep the interface responsive, accessible, and in Brazilian Portuguese.
-- Explain blockers plainly and do not ask the user to spend Lovable AI credits for work that can be done through GitHub.
+## Critério de conclusão
+Uma funcionalidade só está pronta quando funciona de ponta a ponta, trata estados de carregamento/vazio/erro, protege os dados e possui testes adequados. Se uma integração ainda não estiver disponível, registrar o bloqueio em vez de simular funcionamento.
