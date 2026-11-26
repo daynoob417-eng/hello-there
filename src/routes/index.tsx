@@ -48,12 +48,16 @@ function HomePage() {
           </div>
           <div>
             <p className="text-sm font-semibold">Novo projeto</p>
-            <p className="text-xs text-muted-foreground">Pequenos negócios, grandes ideias.</p>
+            <p className="text-xs text-muted-foreground">
+              Pequenos negócios, grandes ideias.
+            </p>
           </div>
         </header>
 
         <section className="py-16 sm:py-24">
-          <p className="mb-4 text-sm font-semibold text-primary">ASSISTENTE DE CONTEÚDO E VENDAS COM IA</p>
+          <p className="mb-4 text-sm font-semibold text-primary">
+            ASSISTENTE DE CONTEÚDO E VENDAS COM IA
+          </p>
           <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
             Mais facilidade para criar conteúdo e conversar com seus clientes.
           </h1>
