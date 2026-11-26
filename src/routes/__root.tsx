@@ -78,16 +78,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Negócio em Ordem" },
+      { title: "Assistente de Conteúdo e Vendas com IA" },
       {
         name: "description",
-        content: "Organize clientes, vendas, tarefas e dinheiro em um só lugar.",
+        content:
+          "Ajuda prática para pequenos negócios planejarem conteúdo, divulgarem produtos e atenderem clientes.",
       },
-      { name: "author", content: "Negócio em Ordem" },
-      { property: "og:title", content: "Negócio em Ordem" },
+      { property: "og:title", content: "Assistente de Conteúdo e Vendas com IA" },
       {
         property: "og:description",
-        content: "Menos tarefas perdidas. Mais controle. Mais oportunidades de venda.",
+        content:
+          "Planejamento de conteúdo, legendas comerciais, respostas para clientes e roteiros de vídeos curtos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
