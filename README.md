@@ -1,45 +1,63 @@
-# Central de Orçamentos
+# Assistente de Conteúdo e Vendas com IA
 
-SaaS para técnicos autônomos, instaladores e pequenas empresas brasileiras de instalação e manutenção de ar-condicionado.
+Projeto em desenvolvimento para ajudar pequenos negócios a planejar conteúdo, divulgar produtos e serviços e responder clientes com mais praticidade.
 
-## Objetivo
+## Objetivo do produto
 
-Centralizar o ciclo comercial e operacional do negócio: clientes, leads, catálogo, orçamentos, agendamentos, equipe técnica, execução dos serviços, acompanhamento do cliente, pagamentos, despesas, estoque e relatórios.
+Transformar tarefas comuns de divulgação e atendimento em fluxos simples, guiados e adaptados às informações de cada negócio. A proposta inicial inclui:
 
-O produto terá três ambientes integrados:
-- **Empresário:** gestão completa da empresa e visão dos indicadores reais.
-- **Técnico:** agenda e serviços atribuídos, com registro da execução.
-- **Cliente:** solicitação e acompanhamento por link individual seguro, sem conta obrigatória.
+- **Perfil do negócio:** segmento, produtos/serviços, público, diferenciais e tom de comunicação.
+- **Planejador de conteúdo:** ideias e calendário de publicações.
+- **Criador de legendas:** textos comerciais com chamadas para ação.
+- **Respostas para clientes:** sugestões para dúvidas, atendimento e acompanhamento de interessados.
+- **Roteiros de vídeos curtos:** ideias e roteiros para Reels, TikTok e Stories.
+- **Ideias de campanhas:** sugestões de divulgação e ações comerciais.
+
+O público inicial, a marca, o modelo de cobrança e o provedor de IA ainda precisam ser validados. Não assumir decisões que ainda não foram aprovadas.
 
 ## Estado atual
 
-A página de vendas criada anteriormente não é o produto solicitado e não deve ser tratada como versão funcional. A implementação atual ainda não possui os módulos operacionais, autenticação integrada, persistência de dados ou regras de negócio da Central de Orçamentos.
+A aplicação está em fase de preparação da base. A página demonstrativa e os documentos do projeto anterior foram retirados/substituídos. Ainda não existe integração de IA, autenticação, cobrança ou persistência de dados confirmada.
 
-A reconstrução foi retomada em uma branch separada. A especificação funcional completa está em [docs/central-de-orcamentos-especificacao.md](docs/central-de-orcamentos-especificacao.md).
+Não apresentar conteúdo de demonstração como resultado gerado por IA, nem simular salvamento, envio ou pagamento.
 
-## Arquitetura aprovada
+## Arquitetura atual
 
-- React + TypeScript + Vite + TanStack.
-- **Lovable Cloud** como backend único gerenciado: banco de dados, autenticação, sessões, armazenamento e lógica server-side.
-- Não criar nem administrar um projeto Supabase separado.
-- Não adicionar Neon, Drizzle, Better Auth, Appwrite ou outro provedor de backend.
-- Isolamento obrigatório dos dados por empresa, autorização no backend e políticas de segurança restritivas.
-- Desenvolvimento via GitHub em branches e Pull Requests, com validação antes da integração e sincronização com Lovable.
+- React + TypeScript.
+- Vite + TanStack Start.
+- Tailwind CSS v4 e componentes de interface reutilizáveis.
+- Configuração compatível com Lovable mantida.
+- O backend, o armazenamento e o provedor de IA serão definidos após a validação dos requisitos e a verificação das integrações disponíveis.
 
-## Critério de qualidade
+Não adicionar serviços, SDKs, credenciais ou variáveis de ambiente por suposição. Nunca colocar chaves privadas no frontend ou no repositório.
 
-Não considerar pronto um módulo que seja apenas visual. Toda funcionalidade deve operar com dados reais, persistir no backend, respeitar permissões e isolamento por empresa, tratar erros e possuir testes relevantes. Não usar dados fictícios como se fossem reais nem botões sem ação.
+## Experiência do produto
 
-## Executar localmente
+- Interface em português do Brasil.
+- Prioridade para uso em celular.
+- Fluxos guiados para pessoas sem conhecimento de marketing ou engenharia de prompts.
+- Resultados fáceis de revisar, copiar e reutilizar.
+- Personalização com base no perfil do negócio.
+- Estados claros de carregamento, vazio, sucesso e erro.
+
+## Desenvolvimento e validação
+
+- Trabalhar em branches de funcionalidade; nunca fazer alterações diretamente em `main`.
+- Analisar a arquitetura antes de introduzir dependências ou integrações.
+- Validar com lint, testes e build sempre que houver mudanças.
+- Abrir Pull Request com escopo, testes e pendências.
+- Não mesclar Pull Requests sem aprovação explícita da pessoa responsável pelo projeto.
+- Não afirmar que a interface foi testada no Lovable sem realizar essa verificação.
+
+## Documentação
+
+A visão inicial, os limites do MVP e as decisões ainda pendentes estão em [docs/assistente-conteudo-vendas.md](docs/assistente-conteudo-vendas.md).
+
+## Comandos
 
 ```bash
 npm install
 npm run dev
-```
-
-## Validação
-
-```bash
 npm run lint
 npm test
 npm run build
